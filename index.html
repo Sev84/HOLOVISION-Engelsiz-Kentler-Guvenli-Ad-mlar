@@ -1,0 +1,63 @@
+
+import Image from 'next/image';
+import Dashboard from '@/components/dashboard';
+import { TeknofestInfo } from '@/components/teknofest-info';
+import { WindTunnelInfo } from '@/components/wind-tunnel-info';
+
+export default function Home() {
+  return (
+    <main className="p-4 sm:p-6 lg:p-8 min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        <header className="mb-8 flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <Image
+              src="https://placehold.co/100x80.png"
+              alt="Rüzgar Tüneli Logosu"
+              width={100}
+              height={80}
+              className="rounded-lg border-2 border-primary"
+              data-ai-hint="wind tunnel"
+            />
+            <div>
+              <h1 className="text-3xl md:text-4xl font-headline font-bold text-foreground tracking-tight">
+                Aerodinamik Parça Analizörü
+              </h1>
+              <p className="text-muted-foreground mt-1">
+                Milli Teknoloji Hamlesi Destekleriyle
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-6">
+            <Image
+              src="https://placehold.co/120x60.png"
+              alt="Milli Teknoloji Hamlesi Logosu"
+              width={120}
+              height={60}
+              className="rounded-lg hidden lg:block"
+              data-ai-hint="technology logo"
+            />
+            <div className="rounded-md overflow-hidden shadow-lg flex-shrink-0">
+              <svg
+                width="60"
+                height="40"
+                viewBox="0 0 900 600"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect width="900" height="600" fill="#E30A17" />
+                <circle cx="275" cy="300" r="150" fill="#FFF" />
+                <circle cx="312.5" cy="300" r="120" fill="#E30A17" />
+                <path
+                  d="M403.125 300L492.532 346.352L459.845 253.648L549.252 207.295L440.625 207.295L403.125 110.94L365.625 207.295L256.998 207.295L346.405 253.648L313.718 346.352Z"
+                  fill="#FFF"
+                />
+              </svg>
+            </div>
+          </div>
+        </header>
+        <Dashboard />
+        <WindTunnelInfo />
+        <TeknofestInfo />
+      </div>
+    </main>
+  );
+}

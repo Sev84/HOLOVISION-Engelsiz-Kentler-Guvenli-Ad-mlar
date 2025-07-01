@@ -42,19 +42,30 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        /* Modal için stiller */
+        #welcome-modal {
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Arka Plan Müziği -->
-    <audio id="background-music" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/11/21/audio_a2b2654665.mp3" type="audio/mpeg">
+    <!-- Sesli Yönerge Modalı -->
+    <div id="welcome-modal" class="fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300">
+        <div class="bg-gray-800 rounded-2xl p-8 text-center shadow-2xl max-w-sm mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+            <img src="logo111111.png" alt="HOLO-VISION Logo" class="h-20 w-auto mx-auto mb-4" onerror="this.onerror=null;this.src='https://placehold.co/200x100/374151/FFFFFF?text=Logo';">
+            <h2 class="text-2xl font-bold text-white mb-2">Sesli Yönerge</h2>
+            <p class="text-gray-400 mb-6">Uygulamayı keşfetmeniz için sesli yönerge otomatik olarak başlatıldı.</p>
+            <div class="flex justify-center gap-4">
+                <button id="skip-modal-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-transform duration-200 hover:scale-105">Anladım, Kapat</button>
+            </div>
+        </div>
+    </div>
+    <audio id="voice-instruction">
+        <!-- Sesli Yönerge için yer tutucu -->
+        <source src="https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/sesli_yonerge.mp3" type="audio/mpeg">
     </audio>
-
-    <!-- Müzik Kontrol Butonu -->
-    <button id="music-toggle-btn" class="fixed top-4 right-4 z-50 bg-gray-800/50 backdrop-blur-sm p-3 rounded-full text-white hover:bg-gray-700/70 transition-colors" aria-label="Müziği aç/kapat">
-        <i id="music-icon" class="ph-bold ph-speaker-simple-high text-2xl"></i>
-    </button>
 
 
     <div class="container mx-auto p-4 md:p-8">
@@ -105,6 +116,43 @@
 
         <main class="space-y-16">
             
+            <!-- Hovercode İstatistik Paneli Bölümü -->
+            <section id="stats-section">
+                <h2 class="text-3xl font-bold mb-8 border-l-4 border-red-500 pl-4">Hovercode İstatistik Paneli</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- İstatistik Kartı: Toplam Tarama -->
+                    <div class="info-card rounded-xl p-6 flex items-center gap-4">
+                        <i class="ph-bold ph-qr-code text-4xl text-green-400"></i>
+                        <div>
+                            <p class="text-sm text-gray-400">Toplam Tarama</p>
+                            <p class="text-3xl font-bold text-white" data-stat="1482"></p>
+                        </div>
+                    </div>
+                    <!-- İstatistik Kartı: Aktif Kodlar -->
+                    <div class="info-card rounded-xl p-6 flex items-center gap-4">
+                        <i class="ph-bold ph-link text-4xl text-blue-400"></i>
+                        <div>
+                            <p class="text-sm text-gray-400">Aktif QR Kodları</p>
+                            <p class="text-3xl font-bold text-white" data-stat="5"></p>
+                        </div>
+                    </div>
+                    <!-- İstatistik Kartı: En Popüler -->
+                    <div class="info-card rounded-xl p-6 flex items-center gap-4">
+                        <i class="ph-bold ph-trophy text-4xl text-yellow-400"></i>
+                        <div>
+                            <p class="text-sm text-gray-400">En Popüler Kod</p>
+                            <p class="text-2xl font-bold text-white">Park Alanı</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="info-card rounded-xl p-6 mt-6">
+                    <h3 class="text-lg font-semibold mb-4">Haftalık Tarama Trendi</h3>
+                    <div id="bar-chart" class="flex items-end justify-between h-40">
+                        <!-- Barlar JS ile eklenecek -->
+                    </div>
+                </div>
+            </section>
+
             <!-- Canlı Sensör Verisi Bölümü -->
             <section id="sensor-section">
                 <h2 class="text-3xl font-bold mb-8 border-l-4 border-red-500 pl-4">Canlı Sensör Verisi</h2>
@@ -174,43 +222,83 @@
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
-            const musicToggleBtn = document.getElementById('music-toggle-btn');
-            const musicIcon = document.getElementById('music-icon');
-            const backgroundMusic = document.getElementById('background-music');
+            const welcomeModal = document.getElementById('welcome-modal');
+            const modalContent = document.getElementById('modal-content');
+            const skipBtn = document.getElementById('skip-modal-btn');
+            const instructionAudio = document.getElementById('voice-instruction');
 
-            // Müziği otomatik başlatmayı dene
-            const playPromise = backgroundMusic.play();
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    // Otomatik oynatma başarılı
-                    musicIcon.className = 'ph-bold ph-speaker-simple-high text-2xl';
-                }).catch(error => {
-                    // Otomatik oynatma engellendi, ikonu sessiz yap ve kullanıcı etkileşimi bekle
-                    console.log("Otomatik oynatma tarayıcı tarafından engellendi. Kullanıcı etkileşimi bekleniyor.");
-                    backgroundMusic.muted = true;
-                    musicIcon.className = 'ph-bold ph-speaker-simple-slash text-2xl';
-                });
+            // Modal'ı ve içeriğini kontrol et
+            if (welcomeModal && modalContent && skipBtn && instructionAudio) {
+                setTimeout(() => {
+                    welcomeModal.classList.add('opacity-100');
+                    modalContent.classList.remove('scale-95', 'opacity-0');
+                    modalContent.classList.add('scale-100', 'opacity-100');
+                    // Sesli yönergeyi otomatik başlatmayı dene
+                    instructionAudio.play().catch(error => console.log("Otomatik oynatma tarayıcı tarafından engellendi. Kullanıcı etkileşimi bekleniyor."));
+                }, 500);
+
+                const closeModal = () => {
+                    instructionAudio.pause();
+                    instructionAudio.currentTime = 0;
+                    modalContent.classList.add('scale-95', 'opacity-0');
+                    setTimeout(() => {
+                        welcomeModal.classList.add('opacity-0');
+                        setTimeout(() => welcomeModal.style.display = 'none', 300);
+                    }, 300);
+                };
+                
+                skipBtn.addEventListener('click', closeModal);
             }
 
-            // Müzik kontrol butonuna tıklama olayı
-            musicToggleBtn.addEventListener('click', () => {
-                // Eğer ses kapalıysa, sesi aç ve çalmaya başla/devam et
-                if (backgroundMusic.muted) {
-                    backgroundMusic.muted = false;
-                    if (backgroundMusic.paused) {
-                        backgroundMusic.play();
-                    }
-                    musicIcon.className = 'ph-bold ph-speaker-simple-high text-2xl';
-                } else { // Eğer ses açıksa, sesi kapat
-                    backgroundMusic.muted = true;
-                    musicIcon.className = 'ph-bold ph-speaker-simple-slash text-2xl';
-                }
-            });
-
+            // Diğer fonksiyonları çağır
             kartlariOlustur();
             sensorSimulasyonunuBaslat();
-            dinamikQrKodlariOlustur(); 
+            dinamikQrKodlariOlustur();
+            initStatsDashboard();
         });
+
+        function initStatsDashboard() {
+            // Sayı animasyonu
+            const statElements = document.querySelectorAll('[data-stat]');
+            statElements.forEach(el => {
+                const finalValue = parseInt(el.dataset.stat, 10);
+                let startValue = 0;
+                const duration = 2000;
+                // Adım zamanının 0 olmamasını sağla
+                const stepTime = Math.max(1, Math.abs(Math.floor(duration / finalValue)));
+                
+                const timer = setInterval(() => {
+                    startValue += 1;
+                    if (startValue >= finalValue) {
+                        el.textContent = finalValue;
+                        clearInterval(timer);
+                    } else {
+                        el.textContent = startValue;
+                    }
+                }, stepTime);
+            });
+
+            // Grafik animasyonu
+            const chart = document.getElementById('bar-chart');
+            if(chart) {
+                const days = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+                const data = [30, 50, 75, 60, 90, 110, 85]; // Simüle edilmiş haftalık veri
+                days.forEach((day, index) => {
+                    const height = (data[index] / 120) * 100;
+                    const barWrapper = document.createElement('div');
+                    barWrapper.className = 'flex-1 flex flex-col items-center justify-end h-full';
+                    barWrapper.innerHTML = `
+                        <div class="w-3/4 bg-blue-500 rounded-t-lg transition-all duration-1000" style="height: 0%;" title="${data[index]} tarama"></div>
+                        <p class="text-xs text-gray-400 mt-2">${day}</p>
+                    `;
+                    chart.appendChild(barWrapper);
+
+                    setTimeout(() => {
+                        barWrapper.querySelector('div').style.height = `${height}%`;
+                    }, 200 * (index + 1));
+                });
+            }
+        }
 
         function kartlariOlustur() {
             const konteyner = document.getElementById('islevKonteyneri');

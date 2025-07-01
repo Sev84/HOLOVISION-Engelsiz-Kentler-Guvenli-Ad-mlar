@@ -185,8 +185,8 @@
                     // Otomatik oynatma başarılı
                     musicIcon.className = 'ph-bold ph-speaker-simple-high text-2xl';
                 }).catch(error => {
-                    // Otomatik oynatma engellendi, ikonu sessiz yap
-                    console.log("Otomatik oynatma tarayıcı tarafından engellendi.");
+                    // Otomatik oynatma engellendi, ikonu sessiz yap ve kullanıcı etkileşimi bekle
+                    console.log("Otomatik oynatma tarayıcı tarafından engellendi. Kullanıcı etkileşimi bekleniyor.");
                     backgroundMusic.muted = true;
                     musicIcon.className = 'ph-bold ph-speaker-simple-slash text-2xl';
                 });
@@ -194,15 +194,16 @@
 
             // Müzik kontrol butonuna tıklama olayı
             musicToggleBtn.addEventListener('click', () => {
-                backgroundMusic.muted = !backgroundMusic.muted;
+                // Eğer ses kapalıysa, sesi aç ve çalmaya başla/devam et
                 if (backgroundMusic.muted) {
-                    musicIcon.className = 'ph-bold ph-speaker-simple-slash text-2xl';
-                } else {
-                    musicIcon.className = 'ph-bold ph-speaker-simple-high text-2xl';
-                    // Eğer müzik duraklatılmışsa (etkileşim bekleniyorsa), şimdi oynat
+                    backgroundMusic.muted = false;
                     if (backgroundMusic.paused) {
                         backgroundMusic.play();
                     }
+                    musicIcon.className = 'ph-bold ph-speaker-simple-high text-2xl';
+                } else { // Eğer ses açıksa, sesi kapat
+                    backgroundMusic.muted = true;
+                    musicIcon.className = 'ph-bold ph-speaker-simple-slash text-2xl';
                 }
             });
 

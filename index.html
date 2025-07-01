@@ -1,62 +1,209 @@
-import Image from 'next/image';
-import Dashboard from '@/components/dashboard';
-import { TeknofestInfo } from '@/components/teknofest-info';
-import { WindTunnelInfo } from '@/components/wind-tunnel-info';
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOLO-VISION | Proje Paneli</title>
+    
+    <!-- Tailwind CSS'i projemize dahil ediyoruz -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts'tan Inter fontunu kullanıyoruz -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Özel ikonlar için Phosphor Icons kütüphanesini ekliyoruz -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-export default function Home() {
-  return (
-    <main className="p-4 sm:p-6 lg:p-8 min-h-screen">
-      <div className="max-w-7xl mx-auto">
-        <header className="mb-8 flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <Image
-              src="https://placehold.co/100x80.png"
-              alt="Rüzgar Tüneli Logosu"
-              width={100}
-              height={80}
-              className="rounded-lg border-2 border-primary"
-              data-ai-hint="wind tunnel"
-            />
-            <div>
-              <h1 className="text-3xl md:text-4xl font-headline font-bold text-foreground tracking-tight">
-                Aerodinamik Parça Analizörü
-              </h1>
-              <p className="text-muted-foreground mt-1">
-                Milli Teknoloji Hamlesi Destekleriyle
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-6">
-            <Image
-              src="https://placehold.co/120x60.png"
-              alt="Milli Teknoloji Hamlesi Logosu"
-              width={120}
-              height={60}
-              className="rounded-lg hidden lg:block"
-              data-ai-hint="technology logo"
-            />
-            <div className="rounded-md overflow-hidden shadow-lg flex-shrink-0">
-              <svg
-                width="60"
-                height="40"
-                viewBox="0 0 900 600"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="900" height="600" fill="#E30A17" />
-                <circle cx="275" cy="300" r="150" fill="#FFF" />
-                <circle cx="312.5" cy="300" r="120" fill="#E30A17" />
-                <path
-                  d="M403.125 300L492.532 346.352L459.845 253.648L549.252 207.295L440.625 207.295L403.125 110.94L365.625 207.295L256.998 207.295L346.405 253.648L313.718 346.352Z"
-                  fill="#FFF"
-                />
-              </svg>
-            </div>
-          </div>
+    <style>
+        /* Sayfanın temel stilini belirliyoruz */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Koyu Gri Arkaplan */
+            color: #F3F4F6; /* Açık Gri Yazı Rengi */
+        }
+        /* Kartların üzerine gelince hafifçe büyümesi için animasyon ekliyoruz */
+        .card-hover-effect {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+        }
+        /* Ses oynatıcısı için özel stiller */
+        audio::-webkit-media-controls-panel {
+            background-color: #374151; /* Oynatıcı panelinin arkaplanı */
+        }
+        audio::-webkit-media-controls-play-button,
+        audio::-webkit-media-controls-mute-button {
+            background-color: #9CA3AF; /* Butonların arkaplanı */
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <!-- Başlık Bölümü -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">HOLO-VISION</h1>
+            <p class="text-lg text-gray-400">Engelsiz Yaşam Teknolojileri Proje Paneli</p>
         </header>
-        <Dashboard />
-        <WindTunnelInfo />
-        <TeknofestInfo />
-      </div>
-    </main>
-  );
-}
+
+        <!-- Afiş Görseli Bölümü -->
+        <section id="poster-section" class="mb-12">
+            <div class="bg-gray-800 rounded-xl p-3 sm:p-4 shadow-lg max-w-md mx-auto">
+                <img src="image_a0fb5c.png" alt="Engelsiz Kentler Proje Afişi" class="rounded-lg w-full" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Afiş+Yüklenemedi';">
+            </div>
+        </section>
+
+        <main class="space-y-12">
+            
+            <!-- Canlı Sensör Verisi Bölümü -->
+            <section id="sensor-section">
+                <h2 class="text-2xl font-semibold mb-6 border-l-4 border-red-500 pl-4">Canlı Sensör Verisi</h2>
+                <div class="bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row items-center justify-center gap-8 shadow-lg">
+                    <div class="text-center">
+                        <p class="text-gray-400 mb-2">Algılanan Renk</p>
+                        <!-- Renk kutusu, JavaScript ile rengi güncellenecek -->
+                        <div id="color-display" class="w-32 h-32 md:w-40 md:h-40 rounded-lg shadow-inner border-4 border-gray-700 transition-colors duration-500 flex items-center justify-center">
+                           <i class="ph-fill ph-paint-brush text-4xl text-gray-500"></i>
+                        </div>
+                    </div>
+                    <div class="text-center md:text-left">
+                        <p class="text-gray-400 mb-2">RGB Değeri</p>
+                        <!-- RGB değeri, JavaScript ile güncellenecek -->
+                        <p id="rgb-value" class="text-3xl font-mono font-bold tracking-widest bg-gray-900 px-4 py-2 rounded-md">#000000</p>
+                        <p class="text-xs text-gray-500 mt-2">*Bu bölüm, sensör verilerini canlı olarak simüle etmektedir.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Proje İşlevleri Bölümü -->
+            <section id="functions-section">
+                <h2 class="text-2xl font-semibold mb-6 border-l-4 border-red-500 pl-4">Proje İşlevleri ve Sesli Bilgilendirme</h2>
+                <!-- Kartlar, JavaScript tarafından bu div içine dinamik olarak eklenecek -->
+                <div id="islevKonteyneri" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Örnek Kart Yapısı (Bu kısım JS ile doldurulacak) -->
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Alt Bilgi Bölümü -->
+        <footer class="text-center mt-16 text-gray-500 text-sm">
+            <p>&copy; 2025 HOLO-VISION Takımı. Tüm hakları saklıdır.</p>
+        </footer>
+    </div>
+
+    <script>
+        // --- YER TUTUCU VERİ YAPISI ---
+        // Bu bölüm, projenizin işlevlerini temsil eder.
+        // GitHub'a dosyalarınızı yükledikten sonra 'gorselURL' ve 'sesURL' kısımlarını kendi linklerinizle değiştirmelisiniz.
+        const islevKartlari = [
+            {
+                id: 1,
+                islevAdi: "Otobüs Durağı",
+                aciklama: "Bu alan, otobüs duraklarını temsil eder. Ayakkabı bu alana geldiğinde sesli uyarı verir.",
+                // GÖRSEL YER TUTUCU: placehold.co sitesi kullanılmıştır. Kendi görsel linkinizle değiştirin.
+                gorselURL: "https://placehold.co/400x300/EF4444/FFFFFF?text=Durak",
+                // SES YER TUTUCU: Kendi ses dosyanızın GitHub'daki ham (raw) linkini buraya ekleyin.
+                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_durak.mp3",
+                icon: "ph-bus"
+            },
+            {
+                id: 2,
+                islevAdi: "Hastane Alanı",
+                aciklama: "Hastanelerin giriş ve acil servis bölgelerini belirtir. Yaklaşıldığında bilgi verir.",
+                gorselURL: "https://placehold.co/400x300/3B82F6/FFFFFF?text=Hastane",
+                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_hastane.mp3",
+                icon: "ph-first-aid-kit"
+            },
+            {
+                id: 3,
+                islevAdi: "Rampa ve Tümsek",
+                aciklama: "Yükselti veya eğim bulunan alanlar için uyarı sistemi. Titreşimle desteklenir.",
+                gorselURL: "https://placehold.co/400x300/F97316/FFFFFF?text=Rampa",
+                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_rampa.mp3",
+                icon: "ph-stairs"
+            },
+            {
+                id: 4,
+                islevAdi: "Alışveriş Merkezi",
+                aciklama: "AVM girişleri ve yoğun kalabalık alanlar için bilgilendirme yapar.",
+                gorselURL: "https://placehold.co/400x300/8B5CF6/FFFFFF?text=AVM",
+                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_avm.mp3",
+                icon: "ph-shopping-cart-simple"
+            }
+        ];
+
+        // --- UYGULAMA MANTIĞI ---
+
+        // Sayfa yüklendiğinde çalışacak ana fonksiyon
+        document.addEventListener('DOMContentLoaded', () => {
+            kartlariOlustur();
+            sensorSimulasyonunuBaslat();
+        });
+
+        /**
+         * Veri yapısındaki her bir işlev için dinamik olarak HTML kartları oluşturur ve sayfaya ekler.
+         */
+        function kartlariOlustur() {
+            const konteyner = document.getElementById('islevKonteyneri');
+            if (!konteyner) return;
+
+            islevKartlari.forEach(kart => {
+                const islevKarti = document.createElement('div');
+                islevKarti.className = 'bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col card-hover-effect';
+
+                islevKarti.innerHTML = `
+                    <div class="relative">
+                        <img src="${kart.gorselURL}" alt="${kart.islevAdi}" class="w-full h-40 object-cover">
+                        <div class="absolute top-3 right-3 bg-black bg-opacity-50 p-2 rounded-full">
+                            <i class="ph-bold ${kart.icon} text-2xl text-white"></i>
+                        </div>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <h3 class="text-xl font-semibold text-white mb-2">${kart.islevAdi}</h3>
+                        <p class="text-gray-400 text-sm mb-4 flex-grow">${kart.aciklama}</p>
+                        <audio controls class="w-full mt-auto" src="${kart.sesURL}" preload="none">
+                            Tarayıcınız ses dosyasını desteklemiyor.
+                        </audio>
+                    </div>
+                `;
+                konteyner.appendChild(islevKarti);
+            });
+        }
+
+        /**
+         * Canlı sensör verilerini simüle eder ve ilgili HTML elementlerini günceller.
+         */
+        function sensorSimulasyonunuBaslat() {
+            const colorDisplay = document.getElementById('color-display');
+            const rgbValue = document.getElementById('rgb-value');
+
+            if (!colorDisplay || !rgbValue) return;
+
+            setInterval(() => {
+                // Rastgele bir renk oluştur
+                const r = Math.floor(Math.random() * 256);
+                const g = Math.floor(Math.random() * 256);
+                const b = Math.floor(Math.random() * 256);
+
+                // Rengi HEX formatına çevir
+                const hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+
+                // HTML elementlerini güncelle
+                colorDisplay.style.backgroundColor = hexColor;
+                colorDisplay.innerHTML = ''; // İkonu kaldır
+                rgbValue.textContent = hexColor.toUpperCase();
+
+            }, 3000); // Her 3 saniyede bir rengi güncelle
+        }
+
+    </script>
+</body>
+</html>
+

@@ -5,25 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HOLO-VISION | Proje Paneli</title>
     
-    <!-- Tailwind CSS'i projemize dahil ediyoruz -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts'tan Inter fontunu kullanıyoruz -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Özel ikonlar için Phosphor Icons kütüphanesini ekliyoruz -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <style>
-        /* Sayfanın temel stilini belirliyoruz */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827; /* Koyu Gri Arkaplan */
-            color: #F3F4F6; /* Açık Gri Yazı Rengi */
+            /* Arka plana kent silüeti ekleniyor ve üzerine koyu bir katman çekiliyor */
+            background-image: linear-gradient(rgba(17, 24, 39, 0.95), rgba(17, 24, 39, 0.98)), url('https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #F3F4F6;
         }
-        /* Kartların üzerine gelince hafifçe büyümesi için animasyon ekliyoruz */
         .card-hover-effect {
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
@@ -31,54 +28,107 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
         }
-        /* Ses oynatıcısı için özel stiller */
         audio::-webkit-media-controls-panel {
-            background-color: #374151; /* Oynatıcı panelinin arkaplanı */
+            background-color: #374151;
         }
         audio::-webkit-media-controls-play-button,
         audio::-webkit-media-controls-mute-button {
-            background-color: #9CA3AF; /* Butonların arkaplanı */
+            background-color: #9CA3AF;
             border-radius: 50%;
+        }
+        /* Bilgilendirme kartları için ek stiller */
+        .info-card {
+            background-color: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* Modal için stiller */
+        #music-modal {
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
         }
     </style>
 </head>
 <body class="antialiased">
 
+    <!-- Arka Plan Müziği ve Kontrol Modalı -->
+    <div id="music-modal" class="fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300">
+        <div class="bg-gray-800 rounded-2xl p-8 text-center shadow-2xl max-w-sm mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+            <img src="logo11111.png" alt="HOLO-VISION Logo" class="h-20 w-auto mx-auto mb-4" onerror="this.onerror=null;this.src='https://placehold.co/200x100/374151/FFFFFF?text=Logo';">
+            <h2 class="text-2xl font-bold text-white mb-2">HOLO-VISION'a Hoş Geldiniz</h2>
+            <p class="text-gray-400 mb-6">Daha iyi bir deneyim için arka plan müziğini etkinleştirmek ister misiniz?</p>
+            <div class="flex justify-center gap-4">
+                <button id="play-music-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-transform duration-200 hover:scale-105">Müziği Başlat</button>
+                <button id="close-modal-btn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition-transform duration-200 hover:scale-105">Gerek Yok</button>
+            </div>
+        </div>
+    </div>
+    <audio id="background-music" loop>
+        <!-- Royalty-free bir müzik yer tutucusu -->
+        <source src="https://cdn.pixabay.com/download/audio/2022/11/21/audio_a2b2654665.mp3" type="audio/mpeg">
+    </audio>
+
+
     <div class="container mx-auto p-4 md:p-8">
 
-        <!-- Başlık Bölümü -->
-        <header class="text-center mb-12">
-            <!-- Logo Yer Tutucusu -->
-            <div class="flex justify-center mb-6">
-                <img src="logo111111.png" alt="HOLO-VISION Logo" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/200x100/111827/FFFFFF?text=Logo';">
+        <!-- YENİ GİRİŞ EKRANI BÖLÜMÜ -->
+        <section id="hero-section" class="text-center py-16">
+            <div class="flex justify-center mb-8">
+                <img src="logo11111.png" alt="HOLO-VISION Logo" class="h-28 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/200x100/111827/FFFFFF?text=Logo';">
             </div>
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">HOLO-VISION</h1>
-            <p class="text-lg text-gray-400">Engelsiz Yaşam Teknolojileri Proje Paneli</p>
-        </header>
-
-        <!-- Afiş Görseli Bölümü -->
-        <section id="poster-section" class="mb-12">
-            <div class="bg-gray-800 rounded-xl p-3 sm:p-4 shadow-lg max-w-md mx-auto">
-                <img src="image_a0fb5c.png" alt="Engelsiz Kentler Proje Afişi" class="rounded-lg w-full" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Afiş+Yüklenemedi';">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-4">HOLO-VISION</h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">Engelsiz kentler için teknolojiyi adımlarınıza taşıyoruz.</p>
+            
+            <!-- Bilgilendirme Kartları (İnfografikler) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 max-w-6xl mx-auto">
+                <!-- Kart 1: Problem -->
+                <div class="info-card rounded-xl p-6 text-center card-hover-effect">
+                    <i class="ph-bold ph-person-simple-walk text-5xl text-red-500 mx-auto mb-4"></i>
+                    <h3 class="text-lg font-bold text-white">Problem</h3>
+                    <p class="text-sm text-gray-400 mt-1">Kentlerdeki fiziksel engeller ve yönlendirme eksikliği.</p>
+                </div>
+                <!-- Kart 2: Teknoloji -->
+                <div class="info-card rounded-xl p-6 text-center card-hover-effect">
+                    <i class="ph-bold ph-cpu text-5xl text-blue-500 mx-auto mb-4"></i>
+                    <h3 class="text-lg font-bold text-white">Teknoloji</h3>
+                    <p class="text-sm text-gray-400 mt-1">Ultrasonik ve renk sensörleri ile donatılmış akıllı sistem.</p>
+                </div>
+                <!-- Kart 3: Çözüm -->
+                <div class="info-card rounded-xl p-6 text-center card-hover-effect">
+                    <i class="ph-bold ph-shoe text-5xl text-green-500 mx-auto mb-4"></i>
+                    <h3 class="text-lg font-bold text-white">Çözüm</h3>
+                    <p class="text-sm text-gray-400 mt-1">Titreşim ve sesli uyarılar üreten giyilebilir akıllı ayakkabı.</p>
+                </div>
+                <!-- Kart 4: Etki -->
+                <div class="info-card rounded-xl p-6 text-center card-hover-effect">
+                    <i class="ph-bold ph-shield-check text-5xl text-yellow-500 mx-auto mb-4"></i>
+                    <h3 class="text-lg font-bold text-white">Etki</h3>
+                    <p class="text-sm text-gray-400 mt-1">Güvenli, bağımsız hareket ve artan toplumsal katılım.</p>
+                </div>
+            </div>
+            
+            <!-- Afiş Görseli -->
+            <div class="mt-16">
+                 <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl p-3 sm:p-4 shadow-lg max-w-md mx-auto border border-white/10">
+                    <img src="image_a0fb5c.png" alt="Engelsiz Kentler Proje Afişi" class="rounded-lg w-full" onerror="this.onerror=null;this.src='https://placehold.co/600x800/1f2937/FFFFFF?text=Afiş+Yüklenemedi';">
+                </div>
             </div>
         </section>
 
-        <main class="space-y-12">
+        <main class="space-y-16">
             
             <!-- Canlı Sensör Verisi Bölümü -->
             <section id="sensor-section">
-                <h2 class="text-2xl font-semibold mb-6 border-l-4 border-red-500 pl-4">Canlı Sensör Verisi</h2>
-                <div class="bg-gray-800 rounded-xl p-6 flex flex-col md:flex-row items-center justify-center gap-8 shadow-lg">
+                <h2 class="text-3xl font-bold mb-8 border-l-4 border-red-500 pl-4">Canlı Sensör Verisi</h2>
+                <div class="bg-gray-800/80 backdrop-blur-sm rounded-xl p-6 flex flex-col md:flex-row items-center justify-center gap-8 shadow-lg border border-white/10">
                     <div class="text-center">
                         <p class="text-gray-400 mb-2">Algılanan Renk</p>
-                        <!-- Renk kutusu, JavaScript ile rengi güncellenecek -->
                         <div id="color-display" class="w-32 h-32 md:w-40 md:h-40 rounded-lg shadow-inner border-4 border-gray-700 transition-colors duration-500 flex items-center justify-center">
                            <i class="ph-fill ph-paint-brush text-4xl text-gray-500"></i>
                         </div>
                     </div>
                     <div class="text-center md:text-left">
                         <p class="text-gray-400 mb-2">RGB Değeri</p>
-                        <!-- RGB değeri, JavaScript ile güncellenecek -->
                         <p id="rgb-value" class="text-3xl font-mono font-bold tracking-widest bg-gray-900 px-4 py-2 rounded-md">#000000</p>
                         <p class="text-xs text-gray-500 mt-2">*Bu bölüm, sensör verilerini canlı olarak simüle etmektedir.</p>
                     </div>
@@ -87,112 +137,91 @@
 
             <!-- Proje İşlevleri Bölümü -->
             <section id="functions-section">
-                <h2 class="text-2xl font-semibold mb-6 border-l-4 border-red-500 pl-4">Proje İşlevleri ve Sesli Bilgilendirme</h2>
-                <!-- Kartlar, JavaScript tarafından bu div içine dinamik olarak eklenecek -->
-                <div id="islevKonteyneri" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Örnek Kart Yapısı (Bu kısım JS ile doldurulacak) -->
-                </div>
+                <h2 class="text-3xl font-bold mb-8 border-l-4 border-red-500 pl-4">Proje İşlevleri ve Sesli Bilgilendirme</h2>
+                <div id="islevKonteyneri" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </section>
 
             <!-- QR Kod Kart Tasarımları Bölümü -->
             <section id="qrcards-section">
-                <h2 class="text-2xl font-semibold mb-6 border-l-4 border-red-500 pl-4">QR Kod Kart Tasarımları</h2>
-                <div class="bg-gray-800 rounded-xl p-3 sm:p-4 shadow-lg">
-                    <img src="KARTLAR.png" alt="QR Kod Kart Tasarımları" class="rounded-lg w-full" onerror="this.onerror=null;this.src='https://placehold.co/1200x600/111827/FFFFFF?text=Tasarım+Görseli+Yüklenemedi';">
+                <h2 class="text-3xl font-bold mb-8 border-l-4 border-red-500 pl-4">QR Kod Kart Tasarımları</h2>
+                <div class="bg-gray-800/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 shadow-lg border border-white/10">
+                    <img src="KARTLAR.png" alt="QR Kod Kart Tasarımları" class="rounded-lg w-full" onerror="this.onerror=null;this.src='https://placehold.co/1200x600/1f2937/FFFFFF?text=Tasarım+Görseli+Yüklenemedi';">
                 </div>
             </section>
 
             <!-- Proje Yönergesi Bölümü -->
             <section id="yonerge-section">
-                <h2 class="text-2xl font-semibold mb-6 border-l-4 border-red-500 pl-4">Proje Yönergesi ve Kart Detayı</h2>
+                <h2 class="text-3xl font-bold mb-8 border-l-4 border-red-500 pl-4">Proje Yönergesi ve Kart Detayı</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="bg-gray-800 rounded-xl p-3 sm:p-4 shadow-lg">
+                    <div class="bg-gray-800/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 shadow-lg border border-white/10">
                         <h3 class="text-xl font-semibold text-white mb-4 text-center">Genel İşleyiş</h3>
-                        <img src="YONERGE.png" alt="Proje Yönergesi" class="rounded-lg w-full" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Yönerge+Yüklenemedi';">
+                        <img src="YONERGE.png" alt="Proje Yönergesi" class="rounded-lg w-full" onerror="this.onerror=null;this.src='https://placehold.co/600x800/1f2937/FFFFFF?text=Yönerge+Yüklenemedi';">
                     </div>
-                    <div class="bg-gray-800 rounded-xl p-3 sm:p-4 shadow-lg">
+                    <div class="bg-gray-800/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 shadow-lg border border-white/10">
                         <h3 class="text-xl font-semibold text-white mb-4 text-center">Örnek Kart Açıklaması</h3>
-                        <img src="KART YONERGE.png" alt="Örnek Kart Yönergesi" class="rounded-lg w-full" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Kart+Detayı+Yüklenemedi';">
+                        <img src="KART YONERGE.png" alt="Örnek Kart Yönergesi" class="rounded-lg w-full" onerror="this.onerror=null;this.src='https://placehold.co/600x800/1f2937/FFFFFF?text=Kart+Detayı+Yüklenemedi';">
                     </div>
                 </div>
             </section>
-
         </main>
 
-        <!-- Alt Bilgi Bölümü -->
-        <footer class="text-center mt-16 text-gray-500 text-sm">
+        <footer class="text-center mt-20 text-gray-500 text-sm">
             <p>&copy; 2025 HOLO-VISION Takımı. Tüm hakları saklıdır.</p>
         </footer>
     </div>
 
     <script>
-        // --- YER TUTUCU VERİ YAPISI ---
-        // Bu bölüm, projenizin işlevlerini temsil eder.
         const islevKartlari = [
-            {
-                id: 1,
-                islevAdi: "Otobüs Durağı",
-                aciklama: "Güvenli rota kartı. Otobüs duraklarını temsil eder ve yaklaşıldığında sesli uyarı verir.",
-                gorselURL: "DURAK.png",
-                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_durak.mp3",
-                icon: "ph-bus"
-            },
-            {
-                id: 2,
-                islevAdi: "Hastane Alanı",
-                aciklama: "Güvenli rota kartı. Hastanelerin giriş ve acil servis bölgelerini belirtir.",
-                gorselURL: "HASTANE.png",
-                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_hastane.mp3",
-                icon: "ph-first-aid-kit"
-            },
-            {
-                id: 3,
-                islevAdi: "Okul Alanı",
-                aciklama: "Güvenli rota kartı. Okul çevreleri ve yaya geçitleri için bilgilendirme yapar.",
-                gorselURL: "OKUL.png",
-                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_okul.mp3",
-                icon: "ph-student"
-            },
-            {
-                id: 4,
-                islevAdi: "Park Alanı",
-                aciklama: "Güvenli rota kartı. Park ve dinlenme alanlarının girişlerini belirtir.",
-                gorselURL: "PARK.png",
-                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_park.mp3",
-                icon: "ph-tree"
-            },
-            {
-                id: 5,
-                islevAdi: "Ticari Alan",
-                aciklama: "Güvenli rota kartı. AVM ve yoğun ticari bölgeler için bilgilendirme yapar.",
-                gorselURL: "TİCARİ.png",
-                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_ticari.mp3",
-                icon: "ph-shopping-cart-simple"
-            }
+            { id: 1, islevAdi: "Otobüs Durağı", aciklama: "Güvenli rota kartı. Otobüs duraklarını temsil eder ve yaklaşıldığında sesli uyarı verir.", gorselURL: "DURAK.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_durak.mp3", icon: "ph-bus" },
+            { id: 2, islevAdi: "Hastane Alanı", aciklama: "Güvenli rota kartı. Hastanelerin giriş ve acil servis bölgelerini belirtir.", gorselURL: "HASTANE.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_hastane.mp3", icon: "ph-first-aid-kit" },
+            { id: 3, islevAdi: "Okul Alanı", aciklama: "Güvenli rota kartı. Okul çevreleri ve yaya geçitleri için bilgilendirme yapar.", gorselURL: "OKUL.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_okul.mp3", icon: "ph-student" },
+            { id: 4, islevAdi: "Park Alanı", aciklama: "Güvenli rota kartı. Park ve dinlenme alanlarının girişlerini belirtir.", gorselURL: "PARK.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_park.mp3", icon: "ph-tree" },
+            { id: 5, islevAdi: "Ticari Alan", aciklama: "Güvenli rota kartı. AVM ve yoğun ticari bölgeler için bilgilendirme yapar.", gorselURL: "TİCARİ.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_ticari.mp3", icon: "ph-shopping-cart-simple" }
         ];
 
-        // --- UYGULAMA MANTIĞI ---
-
-        // Sayfa yüklendiğinde çalışacak ana fonksiyon
         document.addEventListener('DOMContentLoaded', () => {
+            const musicModal = document.getElementById('music-modal');
+            const modalContent = document.getElementById('modal-content');
+            const playBtn = document.getElementById('play-music-btn');
+            const closeBtn = document.getElementById('close-modal-btn');
+            const music = document.getElementById('background-music');
+
+            // Modal'ı görünür yap
+            setTimeout(() => {
+                musicModal.classList.add('opacity-100');
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 100);
+
+            const closeModal = () => {
+                modalContent.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    musicModal.classList.add('opacity-0');
+                    setTimeout(() => musicModal.style.display = 'none', 300);
+                }, 300);
+            };
+
+            playBtn.addEventListener('click', () => {
+                music.play().catch(error => console.log("Otomatik oynatma tarayıcı tarafından engellendi."));
+                closeModal();
+            });
+            
+            closeBtn.addEventListener('click', closeModal);
+
             kartlariOlustur();
             sensorSimulasyonunuBaslat();
         });
 
-        /**
-         * Veri yapısındaki her bir işlev için dinamik olarak HTML kartları oluşturur ve sayfaya ekler.
-         */
         function kartlariOlustur() {
             const konteyner = document.getElementById('islevKonteyneri');
             if (!konteyner) return;
 
             islevKartlari.forEach(kart => {
                 const islevKarti = document.createElement('div');
-                islevKarti.className = 'bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col card-hover-effect';
-
+                islevKarti.className = 'info-card rounded-xl overflow-hidden shadow-lg flex flex-col card-hover-effect';
                 islevKarti.innerHTML = `
                     <div class="relative">
-                        <img src="${kart.gorselURL}" alt="${kart.islevAdi}" class="w-full h-52 object-contain p-4 bg-gray-900">
+                        <img src="${kart.gorselURL}" alt="${kart.islevAdi}" class="w-full h-52 object-contain p-4 bg-gray-900/50">
                         <div class="absolute top-3 right-3 bg-black bg-opacity-50 p-2 rounded-full">
                             <i class="ph-bold ${kart.icon} text-2xl text-white"></i>
                         </div>
@@ -209,32 +238,21 @@
             });
         }
 
-        /**
-         * Canlı sensör verilerini simüle eder ve ilgili HTML elementlerini günceller.
-         */
         function sensorSimulasyonunuBaslat() {
             const colorDisplay = document.getElementById('color-display');
             const rgbValue = document.getElementById('rgb-value');
-
             if (!colorDisplay || !rgbValue) return;
 
             setInterval(() => {
-                // Rastgele bir renk oluştur
                 const r = Math.floor(Math.random() * 256);
                 const g = Math.floor(Math.random() * 256);
                 const b = Math.floor(Math.random() * 256);
-
-                // Rengi HEX formatına çevir
                 const hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-
-                // HTML elementlerini güncelle
                 colorDisplay.style.backgroundColor = hexColor;
-                colorDisplay.innerHTML = ''; // İkonu kaldır
+                colorDisplay.innerHTML = '';
                 rgbValue.textContent = hexColor.toUpperCase();
-
-            }, 3000); // Her 3 saniyede bir rengi güncelle
+            }, 3000);
         }
-
     </script>
 </body>
 </html>

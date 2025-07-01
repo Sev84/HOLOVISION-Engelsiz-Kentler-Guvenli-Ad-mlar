@@ -43,7 +43,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         /* Modal için stiller */
-        #music-modal {
+        #welcome-modal {
             background-color: rgba(0,0,0,0.8);
             backdrop-filter: blur(5px);
         }
@@ -51,21 +51,21 @@
 </head>
 <body class="antialiased">
 
-    <!-- Arka Plan Müziği ve Kontrol Modalı -->
-    <div id="music-modal" class="fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300">
+    <!-- Sesli Yönerge Modalı -->
+    <div id="welcome-modal" class="fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-300">
         <div class="bg-gray-800 rounded-2xl p-8 text-center shadow-2xl max-w-sm mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
-            <img src="logo111111.png" alt="HOLO-VISION Logo" class="h-20 w-auto mx-auto mb-4" onerror="this.onerror=null;this.src='https://placehold.co/200x100/374151/FFFFFF?text=Logo';">
-            <h2 class="text-2xl font-bold text-white mb-2">HOLO-VISION'a Hoş Geldiniz</h2>
-            <p class="text-gray-400 mb-6">Daha iyi bir deneyim için arka plan müziğini etkinleştirmek ister misiniz?</p>
+            <img src="logo11111.png" alt="HOLO-VISION Logo" class="h-20 w-auto mx-auto mb-4" onerror="this.onerror=null;this.src='https://placehold.co/200x100/374151/FFFFFF?text=Logo';">
+            <h2 class="text-2xl font-bold text-white mb-2">Sesli Yönerge</h2>
+            <p class="text-gray-400 mb-6">Uygulamayı keşfetmeden önce sesli yönergeyi dinlemek ister misiniz?</p>
             <div class="flex justify-center gap-4">
-                <button id="play-music-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-transform duration-200 hover:scale-105">Müziği Başlat</button>
-                <button id="close-modal-btn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition-transform duration-200 hover:scale-105">Gerek Yok</button>
+                <button id="play-instruction-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-transform duration-200 hover:scale-105">Yönergeyi Oynat</button>
+                <button id="skip-modal-btn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition-transform duration-200 hover:scale-105">Atla</button>
             </div>
         </div>
     </div>
-    <audio id="background-music" loop>
-        <!-- Royalty-free bir müzik yer tutucusu -->
-        <source src="https://cdn.pixabay.com/download/audio/2022/11/21/audio_a2b2654665.mp3" type="audio/mpeg">
+    <audio id="voice-instruction">
+        <!-- Sesli Yönerge için yer tutucu -->
+        <source src="https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/sesli_yonerge.mp3" type="audio/mpeg">
     </audio>
 
 
@@ -141,6 +141,12 @@
                 <div id="islevKonteyneri" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </section>
 
+            <!-- Dinamik QR Kod Yönetimi Bölümü -->
+            <section id="dynamic-qr-section">
+                <h2 class="text-3xl font-bold mb-8 border-l-4 border-red-500 pl-4">Dinamik QR Kod Yönetimi</h2>
+                <div id="dinamikQrKonteyneri" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"></div>
+            </section>
+
             <!-- QR Kod Kart Tasarımları Bölümü -->
             <section id="qrcards-section">
                 <h2 class="text-3xl font-bold mb-8 border-l-4 border-red-500 pl-4">QR Kod Kart Tasarımları</h2>
@@ -172,23 +178,22 @@
 
     <script>
         const islevKartlari = [
-            { id: 1, islevAdi: "Otobüs Durağı", aciklama: "Güvenli rota kartı. Otobüs duraklarını temsil eder ve yaklaşıldığında sesli uyarı verir.", gorselURL: "DURAK.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_durak.mp3", icon: "ph-bus" },
-            { id: 2, islevAdi: "Hastane Alanı", aciklama: "Güvenli rota kartı. Hastanelerin giriş ve acil servis bölgelerini belirtir.", gorselURL: "HASTANE.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_hastane.mp3", icon: "ph-first-aid-kit" },
-            { id: 3, islevAdi: "Okul Alanı", aciklama: "Güvenli rota kartı. Okul çevreleri ve yaya geçitleri için bilgilendirme yapar.", gorselURL: "OKUL.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_okul.mp3", icon: "ph-student" },
-            { id: 4, islevAdi: "Park Alanı", aciklama: "Güvenli rota kartı. Park ve dinlenme alanlarının girişlerini belirtir.", gorselURL: "PARK.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_park.mp3", icon: "ph-tree" },
-            { id: 5, islevAdi: "Ticari Alan", aciklama: "Güvenli rota kartı. AVM ve yoğun ticari bölgeler için bilgilendirme yapar.", gorselURL: "TİCARİ.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_ticari.mp3", icon: "ph-shopping-cart-simple" }
+            { id: 1, islevAdi: "Otobüs Durağı", aciklama: "Güvenli rota kartı. Otobüs duraklarını temsil eder ve yaklaşıldığında sesli uyarı verir.", gorselURL: "DURAK.png", qrGorselURL: "Otobüs Durağı.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/Otobüs Durağı.mp3", icon: "ph-bus", hovercodeURL: "https://scanqr.to/bb21e661" },
+            { id: 2, islevAdi: "Hastane Alanı", aciklama: "Güvenli rota kartı. Hastanelerin giriş ve acil servis bölgelerini belirtir.", gorselURL: "HASTANE.png", qrGorselURL: "Hastane Alanı.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/Hastane Alanı.mp3", icon: "ph-first-aid-kit", hovercodeURL: "https://scanqr.to/a09a589f" },
+            { id: 3, islevAdi: "Okul Alanı", aciklama: "Güvenli rota kartı. Okul çevreleri ve yaya geçitleri için bilgilendirme yapar.", gorselURL: "OKUL.png", qrGorselURL: "Okul Alanı.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/Okul Alanı.mp3", icon: "ph-student", hovercodeURL: "https://scanqr.to/49c2c4f6" },
+            { id: 4, islevAdi: "Park Alanı", aciklama: "Güvenli rota kartı. Park ve dinlenme alanlarının girişlerini belirtir.", gorselURL: "PARK.png", qrGorselURL: "Park Alanı.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/Park Alanı.mp3", icon: "ph-tree", hovercodeURL: "https://scanqr.to/50366d18" },
+            { id: 5, islevAdi: "Ticari Alan", aciklama: "Güvenli rota kartı. AVM ve yoğun ticari bölgeler için bilgilendirme yapar.", gorselURL: "TİCARİ.png", qrGorselURL: "Ticari Alan.png", sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/Ticari Alan.mp3", icon: "ph-shopping-cart-simple", hovercodeURL: "https://scanqr.to/473fbabe" }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
-            const musicModal = document.getElementById('music-modal');
+            const welcomeModal = document.getElementById('welcome-modal');
             const modalContent = document.getElementById('modal-content');
-            const playBtn = document.getElementById('play-music-btn');
-            const closeBtn = document.getElementById('close-modal-btn');
-            const music = document.getElementById('background-music');
+            const playBtn = document.getElementById('play-instruction-btn');
+            const skipBtn = document.getElementById('skip-modal-btn');
+            const instructionAudio = document.getElementById('voice-instruction');
 
-            // Modal'ı görünür yap
             setTimeout(() => {
-                musicModal.classList.add('opacity-100');
+                welcomeModal.classList.add('opacity-100');
                 modalContent.classList.remove('scale-95', 'opacity-0');
                 modalContent.classList.add('scale-100', 'opacity-100');
             }, 100);
@@ -196,20 +201,21 @@
             const closeModal = () => {
                 modalContent.classList.add('scale-95', 'opacity-0');
                 setTimeout(() => {
-                    musicModal.classList.add('opacity-0');
-                    setTimeout(() => musicModal.style.display = 'none', 300);
+                    welcomeModal.classList.add('opacity-0');
+                    setTimeout(() => welcomeModal.style.display = 'none', 300);
                 }, 300);
             };
 
             playBtn.addEventListener('click', () => {
-                music.play().catch(error => console.log("Otomatik oynatma tarayıcı tarafından engellendi."));
+                instructionAudio.play().catch(error => console.log("Otomatik oynatma tarayıcı tarafından engellendi."));
                 closeModal();
             });
             
-            closeBtn.addEventListener('click', closeModal);
+            skipBtn.addEventListener('click', closeModal);
 
             kartlariOlustur();
             sensorSimulasyonunuBaslat();
+            dinamikQrKodlariOlustur(); 
         });
 
         function kartlariOlustur() {
@@ -252,6 +258,23 @@
                 colorDisplay.innerHTML = '';
                 rgbValue.textContent = hexColor.toUpperCase();
             }, 3000);
+        }
+
+        function dinamikQrKodlariOlustur() {
+            const konteyner = document.getElementById('dinamikQrKonteyneri');
+            if (!konteyner) return;
+
+            islevKartlari.forEach(kart => {
+                const qrKarti = document.createElement('div');
+                qrKarti.className = 'info-card rounded-xl p-4 text-center card-hover-effect';
+                
+                qrKarti.innerHTML = `
+                    <img src="${kart.qrGorselURL}" alt="${kart.islevAdi} QR Kodu" class="mx-auto rounded-md p-2 bg-white">
+                    <h4 class="text-md font-semibold text-white mt-3">${kart.islevAdi}</h4>
+                    <a href="${kart.hovercodeURL}" target="_blank" class="text-xs text-blue-400 hover:text-blue-300 break-all">${kart.hovercodeURL}</a>
+                `;
+                konteyner.appendChild(qrKarti);
+            });
         }
     </script>
 </body>

@@ -48,6 +48,10 @@
 
         <!-- Başlık Bölümü -->
         <header class="text-center mb-12">
+            <!-- Logo Yer Tutucusu -->
+            <div class="flex justify-center mb-6">
+                <img src="logo11111.png" alt="HOLO-VISION Logo" class="h-24 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/200x100/111827/FFFFFF?text=Logo';">
+            </div>
             <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">HOLO-VISION</h1>
             <p class="text-lg text-gray-400">Engelsiz Yaşam Teknolojileri Proje Paneli</p>
         </header>
@@ -85,8 +89,31 @@
             <section id="functions-section">
                 <h2 class="text-2xl font-semibold mb-6 border-l-4 border-red-500 pl-4">Proje İşlevleri ve Sesli Bilgilendirme</h2>
                 <!-- Kartlar, JavaScript tarafından bu div içine dinamik olarak eklenecek -->
-                <div id="islevKonteyneri" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div id="islevKonteyneri" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Örnek Kart Yapısı (Bu kısım JS ile doldurulacak) -->
+                </div>
+            </section>
+
+            <!-- QR Kod Kart Tasarımları Bölümü -->
+            <section id="qrcards-section">
+                <h2 class="text-2xl font-semibold mb-6 border-l-4 border-red-500 pl-4">QR Kod Kart Tasarımları</h2>
+                <div class="bg-gray-800 rounded-xl p-3 sm:p-4 shadow-lg">
+                    <img src="KARTLAR.png" alt="QR Kod Kart Tasarımları" class="rounded-lg w-full" onerror="this.onerror=null;this.src='https://placehold.co/1200x600/111827/FFFFFF?text=Tasarım+Görseli+Yüklenemedi';">
+                </div>
+            </section>
+
+            <!-- Proje Yönergesi Bölümü -->
+            <section id="yonerge-section">
+                <h2 class="text-2xl font-semibold mb-6 border-l-4 border-red-500 pl-4">Proje Yönergesi ve Kart Detayı</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-gray-800 rounded-xl p-3 sm:p-4 shadow-lg">
+                        <h3 class="text-xl font-semibold text-white mb-4 text-center">Genel İşleyiş</h3>
+                        <img src="YONERGE.png" alt="Proje Yönergesi" class="rounded-lg w-full" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Yönerge+Yüklenemedi';">
+                    </div>
+                    <div class="bg-gray-800 rounded-xl p-3 sm:p-4 shadow-lg">
+                        <h3 class="text-xl font-semibold text-white mb-4 text-center">Örnek Kart Açıklaması</h3>
+                        <img src="KART YONERGE.png" alt="Örnek Kart Yönergesi" class="rounded-lg w-full" onerror="this.onerror=null;this.src='https://placehold.co/600x800/111827/FFFFFF?text=Kart+Detayı+Yüklenemedi';">
+                    </div>
                 </div>
             </section>
 
@@ -101,40 +128,45 @@
     <script>
         // --- YER TUTUCU VERİ YAPISI ---
         // Bu bölüm, projenizin işlevlerini temsil eder.
-        // GitHub'a dosyalarınızı yükledikten sonra 'gorselURL' ve 'sesURL' kısımlarını kendi linklerinizle değiştirmelisiniz.
         const islevKartlari = [
             {
                 id: 1,
                 islevAdi: "Otobüs Durağı",
-                aciklama: "Bu alan, otobüs duraklarını temsil eder. Ayakkabı bu alana geldiğinde sesli uyarı verir.",
-                // GÖRSEL YER TUTUCU: placehold.co sitesi kullanılmıştır. Kendi görsel linkinizle değiştirin.
-                gorselURL: "https://placehold.co/400x300/EF4444/FFFFFF?text=Durak",
-                // SES YER TUTUCU: Kendi ses dosyanızın GitHub'daki ham (raw) linkini buraya ekleyin.
+                aciklama: "Güvenli rota kartı. Otobüs duraklarını temsil eder ve yaklaşıldığında sesli uyarı verir.",
+                gorselURL: "DURAK.png",
                 sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_durak.mp3",
                 icon: "ph-bus"
             },
             {
                 id: 2,
                 islevAdi: "Hastane Alanı",
-                aciklama: "Hastanelerin giriş ve acil servis bölgelerini belirtir. Yaklaşıldığında bilgi verir.",
-                gorselURL: "https://placehold.co/400x300/3B82F6/FFFFFF?text=Hastane",
+                aciklama: "Güvenli rota kartı. Hastanelerin giriş ve acil servis bölgelerini belirtir.",
+                gorselURL: "HASTANE.png",
                 sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_hastane.mp3",
                 icon: "ph-first-aid-kit"
             },
             {
                 id: 3,
-                islevAdi: "Rampa ve Tümsek",
-                aciklama: "Yükselti veya eğim bulunan alanlar için uyarı sistemi. Titreşimle desteklenir.",
-                gorselURL: "https://placehold.co/400x300/F97316/FFFFFF?text=Rampa",
-                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_rampa.mp3",
-                icon: "ph-stairs"
+                islevAdi: "Okul Alanı",
+                aciklama: "Güvenli rota kartı. Okul çevreleri ve yaya geçitleri için bilgilendirme yapar.",
+                gorselURL: "OKUL.png",
+                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_okul.mp3",
+                icon: "ph-student"
             },
             {
                 id: 4,
-                islevAdi: "Alışveriş Merkezi",
-                aciklama: "AVM girişleri ve yoğun kalabalık alanlar için bilgilendirme yapar.",
-                gorselURL: "https://placehold.co/400x300/8B5CF6/FFFFFF?text=AVM",
-                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_avm.mp3",
+                islevAdi: "Park Alanı",
+                aciklama: "Güvenli rota kartı. Park ve dinlenme alanlarının girişlerini belirtir.",
+                gorselURL: "PARK.png",
+                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_park.mp3",
+                icon: "ph-tree"
+            },
+            {
+                id: 5,
+                islevAdi: "Ticari Alan",
+                aciklama: "Güvenli rota kartı. AVM ve yoğun ticari bölgeler için bilgilendirme yapar.",
+                gorselURL: "TİCARİ.png",
+                sesURL: "https://raw.githubusercontent.com/KULLANICI_ADINIZ/REPO_ADINIZ/main/sounds/bilgi_ticari.mp3",
                 icon: "ph-shopping-cart-simple"
             }
         ];
@@ -160,7 +192,7 @@
 
                 islevKarti.innerHTML = `
                     <div class="relative">
-                        <img src="${kart.gorselURL}" alt="${kart.islevAdi}" class="w-full h-40 object-cover">
+                        <img src="${kart.gorselURL}" alt="${kart.islevAdi}" class="w-full h-52 object-contain p-4 bg-gray-900">
                         <div class="absolute top-3 right-3 bg-black bg-opacity-50 p-2 rounded-full">
                             <i class="ph-bold ${kart.icon} text-2xl text-white"></i>
                         </div>
@@ -206,4 +238,3 @@
     </script>
 </body>
 </html>
-
